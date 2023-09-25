@@ -9,10 +9,12 @@ public class Game {
     public int[] p = new int[4];
 
     public static Game gameInstance = null;
+    public Dice dice;
 
     public static Game aGame() {
         if (gameInstance == null) {
             gameInstance = new Game();
+            gameInstance.dice = new Dice();
         }
         return gameInstance;
     }
@@ -71,10 +73,11 @@ public class Game {
     }
 
     public String play(String player) {
-        Console.WriteLine("palyer " + player);
+        Console.WriteLine("Player " + player);
         int i = Int32.Parse(player);
-        int d1 = new Random(100).Next(6);
-        int dTwo = new Random(20).Next(6);
+        int d1 = dice.Roll();
+
+        int dTwo = dice.Roll();
         int s = d1 + dTwo;
 
 	Console.WriteLine("Rolled " + s);
@@ -148,7 +151,7 @@ public class Game {
                 res = res + "Normal square reached!";
             }
             if (imlucky == 1) {
-                res = res + "Latter reached!You lucky player!";
+                res = res + "Ladder reached!You lucky player!";
             }
             if (imlucky == -1) {
                 res = res + "HaHaHa!!Snake bite!Sorry!";
@@ -163,8 +166,8 @@ public class Game {
 
 
         i = 2;
-        d1 = new Random(22).Next(6);
-        dTwo = new Random(90).Next(6);
+        d1 = dice.Roll();
+        dTwo = dice.Roll();
         s = d1 + dTwo;
 
         imlucky = 0;

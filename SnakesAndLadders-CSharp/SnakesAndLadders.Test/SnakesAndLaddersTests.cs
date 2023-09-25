@@ -3,10 +3,16 @@ namespace SnakesAndLadders.Test;
 [TestClass]
 public class SnakesAndLaddersTests
 {
+    [TestInitialize]
+    public void Init()
+    {
+        Game.gameInstance = null;
+    }
+
     [TestMethod]
     public void TestIsGamePlayable()
     {
-        Assert.AreEqual(Game.aGame().isGamePlayable(), "true");
+        Assert.AreEqual("true", Game.aGame().isGamePlayable());
     }
 
     [TestMethod]
@@ -18,46 +24,34 @@ public class SnakesAndLaddersTests
     [TestMethod]
     public void TestPlay()
     {
+        Game.aGame().dice = new DiceStub(3);
         var player = "1";
-        var result = Game.aGame().play(player);
-        var expected = "Normal square reached!You 1 are on square 7" + Environment.NewLine + "Normal square reached by computer!You computer 2 are on square 6";
 
-        Assert.AreEqual(expected, result);
-    }
+        AssertPositionMessage(7, 7, Game.aGame().play(player));
+        AssertPositionMessage(13, 13, Game.aGame().play(player));
+   }
+
 
     [TestMethod]
-    public void TestPlay2()
+    public void TestStatus()
     {
+        Game.aGame().dice = new DiceStub(3);
         var player = "1";
-        Game.aGame().play(player);
-        var result = Game.aGame().play(player);
-        var expected = "Normal square reached!You 1 are on square 19" + Environment.NewLine + "Normal square reached by computer!You computer 2 are on square 16";
 
-        Assert.AreEqual(expected, result);
+        Game.aGame().play(player);
+
+        var status = "Players positions: player 0 is on 1square, " + Environment.NewLine +
+ "player 1 is on 7square, " + Environment.NewLine +
+ "player 2 is on 7square, " + Environment.NewLine +
+ "player 3 is on 1square, " + Environment.NewLine;
+
+        Assert.AreEqual(status, Game.aGame().status());
     }
 
-    [TestMethod]
-    public void TestPlay3()
+    public void AssertPositionMessage(int expectedPlayer1Position, int expectedComputer2Position, String actual)
     {
-        var player = "1";
-        Game.aGame().play(player);
-        Game.aGame().play(player);
-        var result = Game.aGame().play(player);
-        var expected = "Normal square reached!You 1 are on square 47" + Environment.NewLine + "Normal square reached by computer!You computer 2 are on square 31";
+        var expected = $"Normal square reached!You 1 are on square {expectedPlayer1Position}{Environment.NewLine}Normal square reached by computer!You computer 2 are on square {expectedComputer2Position}";
 
-        Assert.AreEqual(expected, result);
-    }
-
-    [TestMethod]
-    public void TestPlay4()
-    {
-        var player = "1";
-        Game.aGame().play(player);
-        Game.aGame().play(player);
-        Game.aGame().play(player);
-        var result = Game.aGame().play(player);
-        var expected = "Normal square reached!You 1 are on square 71" + Environment.NewLine + "Game over! Player 2 is the winner!";
-
-        Assert.AreEqual(expected, result);
+        Assert.AreEqual(expected, actual);
     }
 }
