@@ -237,7 +237,7 @@ public class Game {
                 res = res + "Normal square reached by computer!";
             }
             if (imlucky == 1) {
-                res = res + "Latter reached!You lucky computer player!";
+                res = res + "Ladder reached!You lucky computer player!";
             }
             if (imlucky == -1) {
                 res = res + "HaHaHa!!Snake bite!Sorry computer palyer!";
